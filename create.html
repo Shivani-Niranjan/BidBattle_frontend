@@ -32,12 +32,31 @@
   </head>
 
   <body>
+    <!-- Beginning of nav -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand"  href="#"><strong>BidBattle</strong></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav align-items-center">
+          <a class="nav-item nav-link p-3 active" href="#">All Items <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link p-3" id="your-auctions" href="owner.html?userid">Your Auctions</a>
+          <a class="nav-item nav-link p-3" href="bidder.html">Your Biddings</a>
+          <a class="nav-item nav-link bold p-3" href="create.html">Create Auction</a>
+        </div>
+      </div>
+    </nav> 
+    <!-- End of Nav -->
     <section>
-      <div style="margin-top: 30%;" class="main-div">
+
+      <div style="margin-top: 25%;" class="main-div">
         <h1>Create Auction</h1>
         <br><br>
 
-        <form>
+
+
+        <form id="myForm">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="obj_name">Object Name</label>
@@ -70,7 +89,7 @@
               
             </div><br>
            
-            <button type="submit" class="btn btn-primary bg-dark">Create Auction</button>
+            <button type="submit" class="btn-primary bg-dark">Create Auction</button>
           </form>
 
 
@@ -86,39 +105,32 @@
     </section>
 
     <script>
-      document
-        .getElementById("submit-btn").addEventListener("click", function (event) {
-          event.preventDefault();
-          const usernameInput = document.getElementById("username").value;
-          const passwordInput = document.getElementById("password").value;
-          if (usernameInput == " ") {
-            console.log("Enter valid name");
-          }
-          let obj = {
-            username: usernameInput,
-            password: passwordInput,
-          };
+          document.getElementById('myForm').addEventListener('submit', function (e) {
+          e.preventDefault();
+          const formData = new FormData(this); // Create a FormData object from the form
+
+          fetch('http://localhost:5005/bidbattle/object/create', {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log(response.json());
+      return response.json();
+
+    })
+    .then(data => {
+      console.log(data.message);
+      // Optionally, you can redirect or perform other actions here
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+      // Handle errors here
+    });
 
           console.log(JSON.stringify(obj));
-          fetch("http://localhost:5005/bidbattle/auth/login/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(obj),
-          }).then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            if (data.authentication) {
-                window.location.href = `user.html?userid=${data.userid}`;
-            }
-            else{
-                if (data.message === "user"){
-                    alert("User doesn't exist");
-                }
-                else if (data.message === "password"){
-                    alert("Incorrect password");
-                }
-            }
-          })
 
 
         //   if (roleInput == "student") {

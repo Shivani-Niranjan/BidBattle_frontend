@@ -58,15 +58,18 @@
     <script>
       // const apiUrl = "http://localhost:5005/bidbattle/display/owner 651a45deff105f49c8edff53";
 
-      const apiUrl = "http://localhost:5005/bidbattle/display/all";
+      const apiUrl = "http://localhost:5005/bidbattle/display/owner";
       const urlParam = new URLSearchParams(location.search);
       const userid = urlParam.get("userid");
 
-      document.getElementById("your-auctions").href = `owner.html?userid=${userid}`
-      
+      document.getElementById("your-auctions").href = `owner.html?userid=${userid}`;
+
+    //   const apiUrl = "http://localhost:5005/bidbattle/display/owner";
       // Function to fetch JSON data from the API
       async function fetchAuctionData() {
         try {
+          const urlParam = new URLSearchParams(location.search);
+          const userid = urlParam.get("userid");
           const response = await fetch(`${apiUrl}/${userid}`);
           if (!response.ok) {
             throw new Error(`HTTP Error! Status: ${response.status}`);
@@ -122,9 +125,10 @@
 
 
                   <div class="row align-items-center">
+
                     <div class="col-md-12">
                       <select
-                            class="custom-select mb-3 bid-amount-${item._id}">
+                            class="custom-select mb-3 bid-amount">
                             <option selected>Bid increment</option>
                             <option value="1000">1000</option>
                             <option value="2000">2000</option>
@@ -144,28 +148,17 @@
         auctionContainer.innerHTML = result.join("");
       }
 
-      auctionContainer.addEventListener("click", async (e) => {
+      auctionContainer.addEventListener("click", (e) => {
         if(e.target.getAttribute("data-id")) {
 
-          // console.log(e.target.getAttribute("data-id"));
-          // console.log(e.target.parentNode.classList[0]);
-
-          let objId = e.target.getAttribute("data-id");
+          console.log(e.target.getAttribute("data-id"));
+          console.log(e.target.parentNode.classList[0]);
   
-          let bidamount = document.querySelector(`.${e.target.parentNode.classList[0]} .bid-amount-${e.target.getAttribute("data-id")}`).value;
+          let bidamount = document.querySelector(`.${e.target.parentNode.classList[0]} .bid-amount`).value;
           if(bidamount == "Bid increment") {
             alert("Please select a bid amount");
           } else {
-            // console.log(bidamount)
-            let data = {
-              userId: userid,
-              obj_id: objId,
-              bid_amount: bidamount
-            }
-            const response = await fetch(`http://localhost:5005/bidbattle/object/update`, {method: "POST", body: JSON.stringify(data), headers: {"Content-Type": "application/json"}});
-            const result = await response.json();
-            if(result == "updation done") populateAuctionDetails();
-
+            console.log(bidamount)
           }
         }
       });
