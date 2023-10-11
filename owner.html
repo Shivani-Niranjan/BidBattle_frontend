@@ -36,10 +36,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav align-items-center">
-          <a class="nav-item nav-link p-3 active" href="#">All Items <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link p-3" id="your-auctions" href="owner.html?userid">Your Auctions</a>
-          <a class="nav-item nav-link p-3" href="bidder.html">Your Biddings</a>
-          <a class="nav-item nav-link bold p-3" href="create.html">Create Auction</a>
+          <a class="nav-item nav-link p-3" href="#">All Items <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link p-3 active" id="your-auctions" href="owner.html?userid">Your Auctions</a>
+          <a class="nav-item nav-link p-3" id="your-biddings" href="bidder.html?userid">Your Biddings</a>
+          <a class="nav-item nav-link bold p-3" id="creation" href="create.html?userid">Create Auction</a>
         </div>
       </div>
     </nav> 
@@ -49,7 +49,7 @@
     <div style="width: 70%; margin: auto">
       <div class="container mt-5 ">
         <div class="row row-cols-2 row-cols-md-3" id="auction-details">
-          <!-- Auction details will be dynamically populated here -->
+          <!-- Auction details will be populated here -->
         </div>
       </div>
     </div>
@@ -93,20 +93,6 @@
         let result = [];
 
         auctionData.forEach((item) => {
-          // const cardTemplate = `
-          //           <div class="col-md-6">
-          //               <div class="card mb-3">
-          //                   <img src="${item.obj_pic}" class="card-img-top" alt="Auction Item Image">
-          //                   <div class="card-body">
-          //                       <h5 class="card-title">Auction Item: ${item.obj_name}</h5>
-          //                       <p class="card-text">Description: ${item.description}</p>
-          //                       <p class="card-text">End Time: ${item.end_time}</p>
-          //                       <p class="card-text">Initial Bid: $${item.initial_bid}</p>
-          //                       <p class="card-text">Current Bid: $${item.bid_amount}</p>
-          //                   </div>
-          //               </div>
-          //           </div>
-          //           `;
 
           const cardTemplate = `
               <div class="col mb-4">
@@ -134,7 +120,7 @@
                             <option value="2000">2000</option>
                             <option value="3000">3000</option>
                           </select>
-                      <button type="button" data-id="${item._id}" class="w-100 font-weight-bold btn btn-light bid-now">Bid now</button>
+
                     </div>
                   </div>
 
