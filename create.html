@@ -42,7 +42,7 @@
         <div class="navbar-nav align-items-center">
           <a class="nav-item nav-link p-3 active" href="#">All Items <span class="sr-only">(current)</span></a>
           <a class="nav-item nav-link p-3" id="your-auctions" href="owner.html?userid">Your Auctions</a>
-          <a class="nav-item nav-link p-3" href="bidder.html">Your Biddings</a>
+          <a class="nav-item nav-link p-3" id="your-biddings" href="bidder.html">Your Biddings</a>
           <a class="nav-item nav-link bold p-3" href="create.html">Create Auction</a>
         </div>
       </div>
@@ -91,13 +91,6 @@
            
             <button type="submit" class="btn-primary bg-dark">Create Auction</button>
           </form>
-
-
-
-        <!-- <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-          </div> -->
         
       </div>
 
@@ -105,13 +98,47 @@
     </section>
 
     <script>
+      const urlParam = new URLSearchParams(location.search);
+      const userid = urlParam.get("userid");
+
+
           document.getElementById('myForm').addEventListener('submit', function (e) {
           e.preventDefault();
-          const formData = new FormData(this); // Create a FormData object from the form
+          const objName = document.getElementById('obj_name').value;
+          const description = document.getElementById('description').value;
+          const endTime = document.getElementById('end_time').value;
+          const bidAmt = document.getElementById('bid_amt').value;
+          const fileInput = document.getElementById('formFile');
+
+            if (fileInput.files.length === 0) {
+                document.getElementById('message').textContent = 'Please select a file to upload.';
+                return;
+            }
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            // Make a POST request to your backend API
+            const formDataObject = {};
+            formData.forEach((value, key) => {
+            formDataObject[key] = value;
+            });
+
+          const data = {
+            obj_name: objName,
+            obj_pic: formDataObject,
+            end_time: endTime,
+            owner: userid,
+            description: description,
+            initial_bid: bidAmt
+
+            };
+
+console.log(data)
+          // const formData = new FormData(this); // Create a FormData object from the form
 
           fetch('http://localhost:5005/bidbattle/object/create', {
     method: 'POST',
-    body: formData,
+    body: data,
   })
     .then(response => {
       if (!response.ok) {
@@ -123,6 +150,7 @@
     })
     .then(data => {
       console.log(data.message);
+      // response.send(data);
       // Optionally, you can redirect or perform other actions here
     })
     .catch(error => {
@@ -132,12 +160,6 @@
 
           console.log(JSON.stringify(obj));
 
-
-        //   if (roleInput == "student") {
-        //     window.location.href = "studentedit.html";
-        //   } else {
-        //     window.location.href = "adminedit.html";
-        //   }
         });
     </script>
   </body>
