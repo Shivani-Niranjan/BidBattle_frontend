@@ -11,6 +11,15 @@
         width: 40%;
         margin: auto;
       }
+      .auth-button{
+        width: 30%;
+      }
+      #item1{
+        margin-left: 25%;
+      }
+      #item2{
+        margin-right: 25%;
+      }
     </style>
 
     <link
@@ -29,12 +38,53 @@
       integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
       crossorigin="anonymous"
     ></script>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
   </head>
 
-  <body>
+
+    <div class="auth-button">
+      
+    </div>
+        
     <section>
-      <div style="margin-top: 30%;" class="main-div">
-        <h1 style="text-align: center;">BidBattle</h1>
+
+      <div style="margin-top: 15%" class="main-div">
+        <h1 style="text-align: center">BidBattle</h1><br><br>
+
+        <!-- Pills navs -->
+      <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+        <li class="nav-item" id="item1" role="presentation">
+          <a
+            class="nav-link active bg-dark"
+            id="tab-login"
+            data-mdb-toggle="pill"
+            href="login.html"
+            role="tab"
+            aria-controls="pills-login"
+            aria-selected="true"
+            >Login</a
+          >
+        </li>
+        <li class="nav-item" id="item2" role="presentation">
+          <a
+            class="nav-link"
+            style="color: black; border: 1px solid black;"
+            id="tab-register"
+            data-mdb-toggle="pill"
+            href="signup.html"
+            role="tab"
+            aria-controls="pills-register"
+            aria-selected="false"
+            >Register</a
+          >
+        </li>
+      </ul>
+      <!-- Pills navs --> <br><br>
+
         <form>
           <h2>Login</h2>
           <div class="form-group">
@@ -56,26 +106,34 @@
               required
               class="form-control"
               id="password"
-              aria-describedby="emailHelp"/>
+              aria-describedby="emailHelp"
+            />
 
             <small id="emailHelp" class="form-text text-muted"
-              >password should not be less than 5 characters</small>
+              >password should not be less than 5 characters</small
+            >
           </div>
 
-          <button type="button" value ="submit" id="submit-btn" class="btn btn-primary btn-dark">Submit</button>
+          <button
+            type="button"
+            value="submit"
+            id="submit-btn"
+            class="btn btn-primary btn-dark"
+          >
+            Submit
+          </button>
         </form>
       </div>
-
 
       <!-- <div class="alert alert-danger" role="alert">
         A simple danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
       </div> -->
-      
     </section>
 
     <script>
       document
-        .getElementById("submit-btn").addEventListener("click", function (event) {
+        .getElementById("submit-btn")
+        .addEventListener("click", function (event) {
           event.preventDefault();
           const usernameInput = document.getElementById("username").value;
           const passwordInput = document.getElementById("password").value;
@@ -92,28 +150,26 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(obj),
-          }).then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            if (data.authentication) {
-                window.location.href = `user.html?userid=${data.userid}`;
-            }
-            else{
-                if (data.message === "user"){
-                    alert("User doesn't exist");
-                }
-                else if (data.message === "password"){
-                    alert("Incorrect password");
-                }
-            }
           })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              if (data.authentication) {
+                window.location.href = `user.html?userid=${data.userid}`;
+              } else {
+                if (data.message === "user") {
+                  alert("User doesn't exist");
+                } else if (data.message === "password") {
+                  alert("Incorrect password");
+                }
+              }
+            });
 
-
-        //   if (roleInput == "student") {
-        //     window.location.href = "studentedit.html";
-        //   } else {
-        //     window.location.href = "adminedit.html";
-        //   }
+          //   if (roleInput == "student") {
+          //     window.location.href = "studentedit.html";
+          //   } else {
+          //     window.location.href = "adminedit.html";
+          //   }
         });
     </script>
   </body>
